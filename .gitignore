@@ -39,6 +39,15 @@ coverage/
 # Files created by mkdocs
 /site/
 
+# Local binaries produced by scripts/build-macos-feth.sh
+/dist/
+
+# Finder metadata
+.DS_Store
+
+# Machine-local n3n launcher settings
+n3n-edge.local
+
 # Empty files created by the openwrt build
 /.built
 /.built_check

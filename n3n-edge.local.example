@@ -1,0 +1,7 @@
+# Copy this file to n3n-edge.local and edit the values for this Mac.
+# Keep n3n-edge.local private; it is ignored by Git.
+N3N_COMMUNITY=n3n-macos
+N3N_SUPERNODE=supernode.example:9527
+N3N_ADDRESS=192.168.77.1/24
+N3N_TUNTAP_NAME=feth0
+N3N_MTU=1290

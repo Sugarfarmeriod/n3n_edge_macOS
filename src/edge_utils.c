@@ -1382,6 +1382,7 @@ static void check_join_multicast_group (struct n3n_runtime_data *eee) {
             }
         }
 
+#ifndef N3N_IPV4_ONLY
         // IPv6
         if(eee->udp_multicast_sock_v6 >= 0 && !eee->multicast_joined_v6) {
             struct ipv6_mreq mreq6;
@@ -1399,6 +1400,7 @@ static void check_join_multicast_group (struct n3n_runtime_data *eee) {
                 eee->multicast_joined_v6 = true;
             }
         }
+#endif /* N3N_IPV4_ONLY */
     }
 #endif
 }
@@ -3549,6 +3551,7 @@ static int edge_init_sockets (struct n3n_runtime_data *eee) {
         traceEvent(TRACE_WARNING, "failed to create IPv4 multicast socket.");
     }
 
+#ifndef N3N_IPV4_ONLY
     // IPv6
     if(eee->udp_multicast_sock_v6 >= 0) {
         closesocket(eee->udp_multicast_sock_v6);
@@ -3582,6 +3585,7 @@ static int edge_init_sockets (struct n3n_runtime_data *eee) {
     } else {
         traceEvent(TRACE_WARNING, "failed to create IPv6 multicast socket.");
     }
+#endif /* N3N_IPV4_ONLY */
 #endif /* SKIP_MULTICAST_PEERS_DISCOVERY */
 
     return 0;
