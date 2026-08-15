@@ -11,20 +11,24 @@ but first needs a couple of other packages installed:
 brew install automake
 ```
  
-Then install support for TUN/TAP interfaces:
- 
+On current macOS versions, n3n first tries to use an available legacy
+`/dev/tap` interface. If none is installed, it automatically uses a pair of
+built-in `feth` interfaces with BPF as the packet interface. The fallback does
+not install a kernel extension and does not require a reboot, but the edge must
+run as root so it can create the interfaces and open a BPF device:
+
 ```bash
-brew tap homebrew/cask
-brew cask install tuntap
+sudo n3n-edge -c example -l supernode.example:7654 -a 192.168.100.1 start
 ```
- 
-If you are on a modern version of macOS (i.e. Catalina), the commands above
-will ask you to enable the TUN/TAP kernel extension in System Preferences →
-Security & Privacy → General.
- 
-For more information refer to vendor documentation or the [Apple Technical Note](https://developer.apple.com/library/content/technotes/tn2459/_index.html).
- 
-Note that on the newest MacOS versions and on Apple Silicon, there may be
-increasing security restrictions in the OS that make installing the TUN/TAP
-kernel extension difficult.  Alternative software implementations to avoid
-these difficulties are being discussed for future n3n versions.
+
+The visible interface is the even-numbered side of the pair (for example,
+`feth0`), while n3n attaches BPF to the odd-numbered peer (`feth1`). The pair
+is removed when the edge exits. Use `-Otuntap.name=feth2` to request a specific
+unused even-numbered pair; otherwise the first available pair is selected.
+
+Legacy TAP drivers remain supported when `/dev/tap` devices are already
+available, but they are no longer required for a normal build.
+
+The BPF reader disables capture of frames sent on the peer interface. This
+prevents frames injected by n3n from being captured again and forming a packet
+loop.

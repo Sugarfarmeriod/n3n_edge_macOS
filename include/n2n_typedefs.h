@@ -133,6 +133,9 @@ typedef struct tuntap_dev {
     int fd;
     devstr_t dev_name;
 #endif
+#ifdef __APPLE__
+    void *osx_priv;
+#endif
     in_addr_t ip_addr;
     n2n_mac_t mac_addr;
     uint16_t mtu;
